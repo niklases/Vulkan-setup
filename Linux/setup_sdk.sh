@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Requires C++ compiler, e.g., g++ (sudo apt install g++)
+sudo apt install libgl1-mesa-dev  # For OpenGL headers required later
 
 # Steps described in https://vulkan.lunarg.com/doc/view/1.4.304.0/linux/getting_started.html
 mkdir $HOME/vulkan

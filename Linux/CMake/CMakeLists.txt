@@ -23,11 +23,18 @@ list(APPEND CMAKE_PREFIX_PATH "/usr/lib/x86_64-linux-gnu/" "/usr/lib/x86_64-linu
 #find_package(VulkanLoader REQUIRED)
 find_package(Vulkan REQUIRED)
 find_package(glfw3 REQUIRED)
-
+include_directories(${Vulkan_INCLUDE_DIRS})
 
 # Adding something we can run - Output name matches target name
 add_executable(VulkanWindowedProgram main.cpp)
 
 # Make sure you link your targets with this command. It can also link libraries and
 # even flags, so linking a target that does not exist will not give a configure-time error.
-target_link_libraries(VulkanWindowedProgram vulkan glfw)
+target_link_libraries(VulkanWindowedProgram ${Vulkan_LIBRARIES} glfw)
+
+# Copy the shaders directory to the executable output directory
+add_custom_command(TARGET VulkanWindowedProgram POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/shaders
+    $<TARGET_FILE_DIR:VulkanWindowedProgram>/shaders
+)
