@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+
+.vs/*
+Windows/VisualStudioSolution/VulkanCppWindowedProgram1/x64/*
+Windows/VulkanCppWindowedProgram1/VulkanCppWindowedProgram1/x64/*
+Windows/VulkanCppWindowedProgram1/.vs/*
+Windows/VulkanCppWindowedProgram1/x64/Debug/VulkanCppWindowedProgram1.pdb
+Linux/build/*
