@@ -40,43 +40,37 @@ const bool enableValidationLayers = true;
 #endif
 
 #if defined(_WIN32)
-#include <windows.h>
+    #include <windows.h>
+    #define PATH_BUFFER_SIZE MAX_PATH
 #elif defined(__APPLE__) || defined(__linux__)
-#include <limits.h>
-#include <unistd.h>
-#if defined(__APPLE__)
-#include <mach-o/dyld.h>
+    #include <limits.h>
+    #define PATH_BUFFER_SIZE PATH_MAX
+    #include <unistd.h>
+    #if defined(__APPLE__)
+        #include <mach-o/dyld.h>
+    #endif
 #endif
-#else
-#error "Unsupported platform"
-#endif
-
 
 std::string getExeDirectory() {
-    char path[MAX_PATH] = { 0 };
+    char path[PATH_BUFFER_SIZE] = { 0 };
 
 #if defined(_WIN32)
-    // Windows
-    GetModuleFileNameA(NULL, path, MAX_PATH);
+    GetModuleFileNameA(NULL, path, PATH_BUFFER_SIZE);
 
 #elif defined(__APPLE__)
-    // macOS
-    uint32_t size = MAX_PATH;
+    uint32_t size = sizeof(path);
     if (_NSGetExecutablePath(path, &size) != 0) {
-        return ""; // Path buffer too small
+        return "";
     }
 
 #elif defined(__linux__)
-    // Linux
-    ssize_t count = readlink("/proc/self/exe", path, MAX_PATH - 1);
+    ssize_t count = readlink("/proc/self/exe", path, sizeof(path) - 1);
     if (count == -1) {
         return "";
     }
     path[count] = '\0';
-
 #endif
 
-    // Trim to directory path
     std::string fullPath(path);
     size_t pos = fullPath.find_last_of("/\\");
     if (pos == std::string::npos) {

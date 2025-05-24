@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Requires C++ compiler, e.g., g++ (sudo apt install g++)
+
 # Steps described in https://vulkan.lunarg.com/doc/view/1.4.304.0/linux/getting_started.html
 mkdir $HOME/vulkan
 wget -P $HOME/vulkan/ https://sdk.lunarg.com/sdk/download/1.4.309.0/linux/vulkansdk-linux-x86_64-1.4.309.0.tar.xz 
